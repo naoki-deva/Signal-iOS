@@ -78,4 +78,22 @@ class ConversationViewTest: SignalBaseTest {
         XCTAssertFalse(style4 == style2)
         XCTAssertFalse(style4 == style3)
     }
+
+    @MainActor
+    func testConversationInputTextViewResetsScrollPositionWhenEmpty() {
+        let textView = ConversationInputTextView()
+        textView.frame = CGRect(x: 0, y: 0, width: 320, height: 120)
+
+        textView.contentOffset = CGPoint(x: 0, y: 24)
+        textView.textViewDidChange(textView)
+        XCTAssertEqual(textView.contentOffset, .zero)
+
+        textView.setMessageBody(
+            MessageBody(text: "Line 1\nLine 2", ranges: .empty),
+            txProvider: SSKEnvironment.shared.databaseStorageRef.readTxProvider,
+        )
+        textView.contentOffset = CGPoint(x: 0, y: 24)
+        textView.setMessageBody(nil, txProvider: SSKEnvironment.shared.databaseStorageRef.readTxProvider)
+        XCTAssertEqual(textView.contentOffset, .zero)
+    }
 }

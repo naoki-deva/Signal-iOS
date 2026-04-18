@@ -259,6 +259,7 @@ open class BodyRangesTextView: OWSTextView, EditableMessageBodyDelegate, UITextV
     public func scrollToBottom() {
         let length = (editableBody.attributedString.string as NSString).length
         if length == 0 {
+            contentOffset = .zero
             return
         }
         scrollRangeToVisible(NSRange(location: length - 1, length: 1))
@@ -492,6 +493,7 @@ open class BodyRangesTextView: OWSTextView, EditableMessageBodyDelegate, UITextV
         )
         guard systemDefaultFont.pointSize > currentFont.pointSize else {
             textContainerInset = newTextContainerInset
+            resetScrollPositionIfNeeded()
             return
         }
 
@@ -503,6 +505,16 @@ open class BodyRangesTextView: OWSTextView, EditableMessageBodyDelegate, UITextV
         newTextContainerInset.top += insetFontAdjustment * 0.5
         newTextContainerInset.bottom = newTextContainerInset.top - 1
         textContainerInset = newTextContainerInset
+        resetScrollPositionIfNeeded()
+    }
+
+    private func resetScrollPositionIfNeeded() {
+        // If the body is empty, keep the scroll position pinned to the top so
+        // stale offsets from the previous multi-line content do not leave the
+        // caret/placeholder visually shifted.
+        if isEmpty {
+            contentOffset = .zero
+        }
     }
 
     // MARK: - EditableMessageBodyDelegate
