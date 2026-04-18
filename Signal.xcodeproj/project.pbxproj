@@ -321,6 +321,7 @@
 		345AE2B62317048300DB6225 /* GRDBFinderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345AE2B52317048200DB6225 /* GRDBFinderTest.swift */; };
 		3461284B1FD0B94000532771 /* SAELoadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3461284A1FD0B93F00532771 /* SAELoadViewController.swift */; };
 		34635330256EA52A003C5428 /* ConversationViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3463532E256EA525003C5428 /* ConversationViewTest.swift */; };
+		A1B2C3D42E00000000000002 /* ConversationInputTextViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D42E00000000000001 /* ConversationInputTextViewTest.swift */; };
 		34635332257549F2003C5428 /* CVReactionCountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34635331257549F1003C5428 /* CVReactionCountsView.swift */; };
 		3465947E2434CCC100E5C510 /* NewGroupConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3465947D2434CCC100E5C510 /* NewGroupConfirmViewController.swift */; };
 		346594802434D49F00E5C510 /* NewGroupState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3465947F2434D49F00E5C510 /* NewGroupState.swift */; };
@@ -4418,6 +4419,7 @@
 		345DE95F23ED9AA500A8E6E3 /* GroupsV2ProfileKeyUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsV2ProfileKeyUpdater.swift; sourceTree = "<group>"; };
 		3461284A1FD0B93F00532771 /* SAELoadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SAELoadViewController.swift; sourceTree = "<group>"; };
 		346129AE1FD1F5D900532771 /* SystemContactsFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemContactsFetcher.swift; sourceTree = "<group>"; };
+		A1B2C3D42E00000000000001 /* ConversationInputTextViewTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationInputTextViewTest.swift; sourceTree = "<group>"; };
 		3463532E256EA525003C5428 /* ConversationViewTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationViewTest.swift; sourceTree = "<group>"; };
 		34635331257549F1003C5428 /* CVReactionCountsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVReactionCountsView.swift; sourceTree = "<group>"; };
 		34641E172088D7E900E2EDE5 /* ScreenLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenLock.swift; sourceTree = "<group>"; };
@@ -9427,6 +9429,7 @@
 				F9A335C9282F0BF700B5F5FA /* BadgeGiftingChooseBadgeViewControllerStateTest.swift */,
 				F97A2EE828247C1300610669 /* BadgeIssueSheetStateTest.swift */,
 				4C6E6C6824241C00009DE948 /* ConversationViewControllerTest.swift */,
+				A1B2C3D42E00000000000001 /* ConversationInputTextViewTest.swift */,
 				3463532E256EA525003C5428 /* ConversationViewTest.swift */,
 				88D6E94125535482003142D9 /* CVTextTest.swift */,
 				F96B66B22912B8B7004FFFAA /* DonateViewControllerTest.swift */,
@@ -18885,6 +18888,7 @@
 				954AEE6A1DF33E01002E5410 /* ContactsPickerTest.swift in Sources */,
 				4C9D347B23679C25006A4307 /* ContactStreamTest.swift in Sources */,
 				4C6E6C6924241C00009DE948 /* ConversationViewControllerTest.swift in Sources */,
+				A1B2C3D42E00000000000002 /* ConversationInputTextViewTest.swift in Sources */,
 				34635330256EA52A003C5428 /* ConversationViewTest.swift in Sources */,
 				88D6E94325535D49003142D9 /* CVTextTest.swift in Sources */,
 				F93999F628C81F2100E34899 /* DataMessagePaddingTests.swift in Sources */,

@@ -26,6 +26,8 @@ class ConversationInputTextView: BodyRangesTextView {
 
     private lazy var placeholderView = UILabel()
     private var placeholderConstraints: [NSLayoutConstraint]?
+    /// Keep scrolling disabled for short messages so empty and short drafts stay visually stable.
+    private static let scrollThresholdLineCount = 4
 
     weak var inputTextViewDelegate: ConversationInputTextViewDelegate?
     weak var textViewToolbarDelegate: ConversationTextViewToolbarDelegate?
@@ -44,7 +46,8 @@ class ConversationInputTextView: BodyRangesTextView {
         backgroundColor = nil
         scrollIndicatorInsets = UIEdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4)
 
-        isScrollEnabled = true
+        isScrollEnabled = false
+        alwaysBounceVertical = false
         scrollsToTop = false
         isUserInteractionEnabled = true
 
@@ -127,21 +130,72 @@ class ConversationInputTextView: BodyRangesTextView {
     }
 
     override var font: UIFont? {
-        didSet { placeholderView.font = font }
+        didSet {
+            placeholderView.font = font
+            updateVerticalScrollingState()
+        }
     }
 
     override var contentInset: UIEdgeInsets {
-        didSet { ensurePlaceholderConstraints() }
+        didSet {
+            ensurePlaceholderConstraints()
+            updateVerticalScrollingState()
+        }
     }
 
     override var textContainerInset: UIEdgeInsets {
-        didSet { ensurePlaceholderConstraints() }
+        didSet {
+            ensurePlaceholderConstraints()
+            updateVerticalScrollingState()
+        }
     }
 
     override func setMessageBody(_ messageBody: MessageBody?, txProvider: ((DBReadTransaction) -> Void) -> Void) {
         super.setMessageBody(messageBody, txProvider: txProvider)
         updatePlaceholderVisibility()
         updateTextContainerInset()
+        updateVerticalScrollingState()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        updateVerticalScrollingState()
+    }
+
+    private func updateVerticalScrollingState() {
+        guard bounds.width > 0 else { return }
+
+        let shouldEnableScrolling = renderedLineCount() > Self.scrollThresholdLineCount
+        guard isScrollEnabled != shouldEnableScrolling else { return }
+
+        isScrollEnabled = shouldEnableScrolling
+        alwaysBounceVertical = shouldEnableScrolling
+
+        if shouldEnableScrolling {
+            scrollToBottom()
+        } else {
+            setContentOffset(CGPoint(x: -adjustedContentInset.left, y: -adjustedContentInset.top), animated: false)
+        }
+    }
+
+    private func renderedLineCount() -> Int {
+        layoutManager.ensureLayout(for: textContainer)
+
+        let glyphRange = layoutManager.glyphRange(for: textContainer)
+        guard glyphRange.length > 0 else {
+            return 0
+        }
+
+        var lineCount = 0
+        layoutManager.enumerateLineFragments(forGlyphRange: glyphRange) { _, _, _, _, stop in
+            lineCount += 1
+            if lineCount > Self.scrollThresholdLineCount {
+                stop.pointee = true
+            }
+        }
+
+        return lineCount
     }
 
     var pasteboardHasPossibleAttachment: Bool {
@@ -218,6 +272,7 @@ class ConversationInputTextView: BodyRangesTextView {
 
         inputTextViewDelegate?.textViewDidChange(self)
         textViewToolbarDelegate?.textViewDidChange(self)
+        updateVerticalScrollingState()
     }
 
     override func textViewDidChangeSelection(_ textView: UITextView) {
@@ -257,5 +312,6 @@ class ConversationInputTextView: BodyRangesTextView {
 
         inputTextViewDelegate?.textViewDidChange(self)
         textViewToolbarDelegate?.textViewDidChange(self)
+        updateVerticalScrollingState()
     }
 }
